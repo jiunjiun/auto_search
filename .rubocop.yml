@@ -1,0 +1,10 @@
+AllCops:
+  Exclude:
+    - 'Gemfile'
+
+Metrics/LineLength:
+  Max: 100
+
+Style/Documentation:
+  Exclude:
+    - '**/**.rb'
