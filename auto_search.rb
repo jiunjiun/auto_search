@@ -59,7 +59,7 @@ class AutoSearch
   end
 
   def search_trigger_find_scope
-    sleep 300
+    sleep 0.3
     driver.find_elements(class: 'LC20lb').each do |e|
       if e.text == website_title
         @trgger_element = e
