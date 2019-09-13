@@ -16,6 +16,8 @@ class AutoSearch
     @search_keywork = search_keywork
     @website_title = website_title
     @run_times = run_times
+
+    @driver = Selenium::WebDriver.for :chrome
   end
 
   def call
@@ -31,7 +33,6 @@ class AutoSearch
   end
 
   def setup
-    @driver = Selenium::WebDriver.for :chrome
     @break_loop = false
     @trgger_element = nil
     @page_number = 1
@@ -77,6 +78,6 @@ class AutoSearch
   def search_trigger_found
     trgger_element.click
     puts "#{website_title} in google search of #{page_number} found."
-    driver.quit
+    # driver.quit
   end
 end
