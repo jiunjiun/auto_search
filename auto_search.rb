@@ -16,22 +16,25 @@ class AutoSearch
     @search_keywork = search_keywork
     @website_title = website_title
     @run_times = run_times
-
-    @driver = Selenium::WebDriver.for :chrome
-    @break_loop = false
-    @trgger_element = nil
-    @page_number = 1
   end
 
   def call
     puts "search_keywork: #{search_keywork}\ntrigger website: #{website_title}\n-\n"
     run_times.times do |i|
       puts "Run time: #{i + 1}"
+      setup
       goto_google_and_search
       search_trigger
 
       sleep 1
     end
+  end
+
+  def setup
+    @driver = Selenium::WebDriver.for :chrome
+    @break_loop = false
+    @trgger_element = nil
+    @page_number = 1
   end
 
   def goto_google_and_search
@@ -45,10 +48,8 @@ class AutoSearch
   def search_trigger
     loop do
       search_trigger_find_scope
-
       if break_loop
-        trgger_element.click
-        puts "#{website_title} in google search of #{page_number} found."
+        search_trigger_found
         break
       end
 
@@ -58,6 +59,7 @@ class AutoSearch
   end
 
   def search_trigger_find_scope
+    sleep 300
     driver.find_elements(class: 'LC20lb').each do |e|
       if e.text == website_title
         @trgger_element = e
@@ -70,5 +72,11 @@ class AutoSearch
     driver.find_elements(class: 'pn').last.click
 
     @page_number += 1
+  end
+
+  def search_trigger_found
+    trgger_element.click
+    puts "#{website_title} in google search of #{page_number} found."
+    driver.quit
   end
 end
